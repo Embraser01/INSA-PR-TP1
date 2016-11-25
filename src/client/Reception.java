@@ -1,5 +1,7 @@
 package client;
 
+import client.ui.Window;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -53,7 +55,7 @@ public class Reception implements Runnable {
     }
 
     public void printMessage(String message) {
-        System.out.println(message);
+        Window.addMessage(message);
     }
 
 
