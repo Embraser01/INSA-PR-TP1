@@ -34,9 +34,10 @@ public class ClientThread
 
             socOut = new PrintStream(clientSocket.getOutputStream());
 
-            socOut.println("Bienvenue !");
-            socOut.println("Pour rejoindre une salle : '/join numSalle'");
-            socOut.println("Pour l'aide : '/help'");
+            send("Welcome !\n" +
+                    "To join a room type '/join <room_id>'\n" +
+                    "To get help type '/help'"
+            );
 
             while (true) {
                 String line = socIn.readLine();
@@ -68,7 +69,19 @@ public class ClientThread
             case "/nick":
                 nick = words[1];
                 break;
+            case "/help":
+                send("Help :\n" +
+                        "/join <room_id> : Join a room (if absent, a new one will be created)\n" +
+                        "/leave : Return to the lobby\n" +
+                        "/nick : Change your nickname\n" +
+                        "/help : Display this menu");
+                break;
             default:
+                if(string.charAt(0) == '/') {
+                    send("Unknown command!");
+                } else {
+                    send("You have to join a room first!");
+                }
                 break;
         }
 
@@ -81,10 +94,6 @@ public class ClientThread
 
     public String getNick() {
         return nick;
-    }
-
-    public Room getRoom() {
-        return room;
     }
 }
 

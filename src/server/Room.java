@@ -22,13 +22,13 @@ public class Room {
             clientThread.send(message);
         }
 
-        broadcast(null, String.format("%s has joined the room.", clientThread.getNick()));
+        broadcast(null, String.format("<html><b>%s</b> has joined the room.</html>", clientThread.getNick()));
         return false;
     }
 
     public void broadcast(ClientThread emitter, String message) {
 
-        String sender = (emitter == null ? "Server" : emitter.getNick()) + ": " + message;
+        String sender = "<html><b>" + (emitter == null ? "Server" : emitter.getNick()) + "</b>: " + message + "</html>";
         history.add(sender);
 
         for (ClientThread ct :
@@ -38,7 +38,7 @@ public class Room {
     }
 
     public boolean leave(ClientThread clientThread) {
-        broadcast(null, String.format("%s has left the room.", clientThread.getNick()));
+        broadcast(null, String.format("<html><b>%s</b> has left the room.</html>", clientThread.getNick()));
         return users.remove(clientThread);
     }
 }

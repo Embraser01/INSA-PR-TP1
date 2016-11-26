@@ -6,58 +6,32 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 public class Reception implements Runnable {
 
     private Socket socket = null;
-    private BufferedReader socIn = null;
+    private boolean stop = false;
 
-    boolean stop = false;
-    int port = -1;
-    private String message = null;
-
-    public Reception(Socket socket, int port) {
+    public Reception(Socket socket) {
         this.socket = socket;
-        this.port = port;
     }
 
     @Override
     public void run() {
         try {
-            socIn = new BufferedReader(
+            BufferedReader socIn = new BufferedReader(
                     new InputStreamReader(socket.getInputStream()));
 
             while (!stop) {
                 handleInput(socIn.readLine());
             }
-        } catch (IOException ex) {
-            Logger.getLogger(Reception.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } catch (IOException ignored) {}
     }
 
-    public void handleInput(String input) {
-        if (input.charAt(0) != '/') {
-            printMessage(input);
-            return;
-        }
-
-        switch (input) {
-            case "/join":
-                break;
-            case "/leave":
-                break;
-            default:
-                break;
-        }
+    private void handleInput(String input) {
+        Window.getInstance().addMessage(input);
     }
-
-    public void printMessage(String message) {
-        Window.addMessage(message);
-    }
-
 
     public void stop() {
         stop = true;

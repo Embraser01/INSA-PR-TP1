@@ -14,16 +14,10 @@ public class Client {
 
     private Socket socket = null;
     private PrintStream socOut = null;
-    private BufferedReader stdIn = null;
     private Reception reception = null;
     private Thread threadReception = null;
-    private String name = null;
 
-    /**
-     * main method
-     * accepts a connection, receives a message from client then sends an echo to the client
-     **/
-    public Client(String ip, int port) throws IOException {
+    public void connect(String ip, int port) throws IOException {
 
         try {
             // creation socket ==> connexion
@@ -31,12 +25,13 @@ public class Client {
 
             // Reception
 
-            reception = new Reception(socket, port);
+            reception = new Reception(socket);
             threadReception = new Thread(reception);
             threadReception.start();
 
+            // Emitter
+
             socOut = new PrintStream(socket.getOutputStream());
-            stdIn = new BufferedReader(new InputStreamReader(System.in));
 
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host:" + ip);
@@ -46,25 +41,23 @@ public class Client {
                     + "the connection to:" + ip);
             System.exit(1);
         }
+    }
 
-        System.out.print("Nick? ");
-        name = stdIn.readLine();
-        socOut.println(String.format("/nick %s", name));
-        String line;
-
-        while (true) {
-            line = stdIn.readLine();
-            if (line.equals("/quit")) break;
-            socOut.println(line);
-        }
-
-        socOut.close();
-        reception.stop();
-        stdIn.close();
-        socket.close();
+    public void sendMessage(String message) {
+        socOut.println(message);
     }
 
 
+    public void quit() {
+        reception.stop();
+        socOut.close();
+
+        try {
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
 
 
