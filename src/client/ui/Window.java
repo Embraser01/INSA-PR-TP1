@@ -7,21 +7,64 @@ import java.awt.event.*;
 import java.io.IOException;
 
 /**
- * Created by marca on 25/11/2016.
+ * Main entry point for the chat, also the class responsible for handling the GUI
+ * Starts the communication with the server and the interface
+ *
+ * @author Tristan Bourvon
+ * @author Marc-Antoine FERNANDES
+ * @version 1.0.0
  */
 public class Window {
+    /**
+     * List used to display messages
+     */
     private JList<String> messageList;
+
+    /**
+     * Model for the message list
+     */
     private DefaultListModel<String> defaultListModel;
+
+    /**
+     * Field used to type and send messages
+     */
     private JTextField messageField;
+
+    /**
+     * Button used to send messages
+     */
     private JButton sendButton;
+
+    /**
+     * Root panel
+     */
     private JPanel root;
+
+    /**
+     * Scroll pane allowing the message list to be scrollable
+     */
     private JScrollPane scrollPane;
+
+    /**
+     * Client used for communication with the server
+     */
     private Client client;
 
+    /**
+     * Name of the user on the chat
+     */
     private static String name;
 
+    /**
+     * Instance of the class (singleton)
+     */
     private static Window instance = null;
 
+    /**
+     * Constructor, which takes a client object and binds all GUI actions to send messages
+     *
+     * @param client Client used for the connection to the server
+     */
     private Window(Client client) {
 
         this.client = client;
@@ -43,6 +86,12 @@ public class Window {
         });
     }
 
+    /**
+     * Main entry point of the program, initializes the Window and the Client connection.
+     *
+     * @param args Program arguments, we use args[0] for the hostname and args[1] for the port
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
 
         if (args.length != 2) {
@@ -76,10 +125,20 @@ public class Window {
         frame.setVisible(true);
     }
 
+    /**
+     * Static method used for the singleton pattern which returns the Window instance
+     *
+     * @return Window instance
+     */
     public static Window getInstance() {
         return instance;
     }
 
+    /**
+     * Adds a message to the message list
+     *
+     * @param message Message to be added
+     */
     public void addMessage(String message) {
         defaultListModel.addElement(message);
 
@@ -89,6 +148,9 @@ public class Window {
 
     }
 
+    /**
+     * Initializes the model for the message list
+     */
     private void createUIComponents() {
         defaultListModel = new DefaultListModel<>();
 

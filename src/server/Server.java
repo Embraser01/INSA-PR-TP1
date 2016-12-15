@@ -12,16 +12,35 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Main server class, used to listen to incoming connections and start appropriate client threads
+ * Also stores the list of the rooms (with the roomID => room object table) and of users.
+ *
+ * @author Tristan Bourvon
+ * @author Marc-Antoine FERNANDES
+ * @version 1.0.0
+ */
 public class Server {
 
+    /**
+     * Server socket used to listen to incoming connections
+     */
     private ServerSocket listenSocket;
+
+    /**
+     * List of client threads currently connected
+     */
     private ArrayList<ClientThread> clientThreads;
+
+    /**
+     * Map of the chat rooms by roomID
+     */
     private HashMap<Integer ,Room> rooms;
 
     /**
-     * main method
+     * Constructor used to initialize the class and wait for incoming connections, spawning threads as needed
      *
-     * @param port port
+     * @param port Connection port
      **/
     public Server(int port) {
 
@@ -43,6 +62,13 @@ public class Server {
         }
     }
 
+    /**
+     * Used to make a user join a room, translating the roomID used to the required Room object
+     *
+     * @param clientThread User joining the room
+     * @param room Room to be joined
+     * @return
+     */
     public Room join(ClientThread clientThread, Integer room) {
         Room room1 = rooms.computeIfAbsent(room, k -> new Room());
 

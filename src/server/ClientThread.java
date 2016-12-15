@@ -10,22 +10,56 @@ package server;
 import java.io.*;
 import java.net.*;
 
+/**
+ * Each ClientThread is a new thread used by a single client, which allows users to chat concurrently
+ *
+ * @author Tristan Bourvon
+ * @author Marc-Antoine FERNANDES
+ * @version 1.0.0
+ */
 public class ClientThread
         extends Thread {
 
+    /**
+     * Socket used for the communication with the client
+     */
     private Socket clientSocket;
+
+    /**
+     * Main server class used to dispatch actions to other clients and to handle rooms and clients creation
+     */
     private Server server;
+
+    /**
+     * Stream used to output to the socket
+     */
     private PrintStream socOut;
+
+    /**
+     * Current room of the user (the user can only by in a single room)
+     */
     private Room room = null;
+
+    /**
+     * Current nickname of the client
+     */
     private String nick = null;
 
+    /**
+     * Initialization constructor
+     *
+     * @param s see {@link #clientSocket}
+     * @param server see {@link #server}
+     */
     ClientThread(Socket s, Server server) {
         this.server = server;
         this.clientSocket = s;
     }
 
     /**
-     * receives a request from client then sends an echo to the client
+     * Method called when starting the thread.
+     * Initializes the streams of communication, displays a welcome/help message, and starts
+     * reading input from the client
      **/
     public void run() {
         try {
@@ -48,6 +82,12 @@ public class ClientThread
         }
     }
 
+    /**
+     * Handles an incoming message from the client
+     * An incoming message can be a simple message or a command prefixed by /
+     *
+     * @param string Message from the client
+     */
     public void handleStream(String string) {
         if (room != null && string.charAt(0) != '/') {
             room.broadcast(this, string);
@@ -87,11 +127,21 @@ public class ClientThread
 
     }
 
+    /**
+     * Sends a message to the client
+     *
+     * @param string Message to be sent
+     */
     public void send(String string) {
         socOut.println(string);
         socOut.flush();
     }
 
+    /**
+     * Nickname getter
+     *
+     * @return see {@link #nick}
+     */
     public String getNick() {
         return nick;
     }
