@@ -13,7 +13,7 @@ import java.awt.*;
 public class MyListCellRenderer extends JLabel implements ListCellRenderer<Object> {
 
     /**
-     * Constructor which initializes the look&feel of messages
+     * Constructor which initializes the look and feel of messages
      */
     public MyListCellRenderer() {
         setFont(new Font("Serif", Font.PLAIN, 14));
@@ -27,7 +27,7 @@ public class MyListCellRenderer extends JLabel implements ListCellRenderer<Objec
      * @param index unused
      * @param isSelected unused
      * @param cellHasFocus unused
-     * @return
+     * @return The cell renderer
      */
     @Override
     public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {

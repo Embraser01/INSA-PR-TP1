@@ -34,7 +34,7 @@ public class Room {
      * Makes a client join this room, displaying the appropriate messages
      *
      * @param clientThread Client joining this room
-     * @return
+     * @return not used
      */
     public boolean join(ClientThread clientThread) {
 
@@ -70,7 +70,7 @@ public class Room {
      * Makes a client leave this room, displaying the appropriate messages
      *
      * @param clientThread Client leaving the room
-     * @return
+     * @return if succeeded
      */
     public boolean leave(ClientThread clientThread) {
         broadcast(null, String.format("<html><b>%s</b> has left the room.</html>", clientThread.getNick()));

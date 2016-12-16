@@ -100,7 +100,7 @@ public class ClientThread
             case "/join":
                 if (nick == null) break;
                 if (room != null) room.leave(this);
-                room = server.join(this, Integer.parseInt(words[1]));
+                room = server.join(this, words[1]);
                 break;
             case "/leave":
                 if (room != null) room.leave(this);

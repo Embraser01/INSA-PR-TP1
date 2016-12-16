@@ -90,7 +90,7 @@ public class Window {
      * Main entry point of the program, initializes the Window and the Client connection.
      *
      * @param args Program arguments, we use args[0] for the hostname and args[1] for the port
-     * @throws IOException
+     * @throws IOException if the connection fails
      */
     public static void main(String[] args) throws IOException {
 

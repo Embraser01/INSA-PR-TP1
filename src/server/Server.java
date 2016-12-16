@@ -14,7 +14,7 @@ import java.util.HashMap;
 
 /**
  * Main server class, used to listen to incoming connections and start appropriate client threads
- * Also stores the list of the rooms (with the roomID => room object table) and of users.
+ * Also stores the list of the rooms (with the roomID to room object table) and of users.
  *
  * @author Tristan Bourvon
  * @author Marc-Antoine FERNANDES
@@ -35,7 +35,7 @@ public class Server {
     /**
      * Map of the chat rooms by roomID
      */
-    private HashMap<Integer ,Room> rooms;
+    private HashMap<String ,Room> rooms;
 
     /**
      * Constructor used to initialize the class and wait for incoming connections, spawning threads as needed
@@ -67,9 +67,9 @@ public class Server {
      *
      * @param clientThread User joining the room
      * @param room Room to be joined
-     * @return
+     * @return The room
      */
-    public Room join(ClientThread clientThread, Integer room) {
+    public Room join(ClientThread clientThread, String room) {
         Room room1 = rooms.computeIfAbsent(room, k -> new Room());
 
         room1.join(clientThread);

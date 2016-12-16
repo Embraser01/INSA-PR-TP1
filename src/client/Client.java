@@ -43,7 +43,7 @@ public class Client {
      *
      * @param ip IP to connect to
      * @param port Port to connect to
-     * @throws IOException
+     * @throws IOException if the connection fails
      */
     public void connect(String ip, int port) throws IOException {
 
